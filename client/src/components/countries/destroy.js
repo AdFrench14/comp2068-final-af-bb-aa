@@ -4,11 +4,11 @@ import Axios from "axios"
 
 function Destroy(props){
     useEffect(() => {
-        Axios.post("/api/blogs/destroy", {
+        Axios.post("/api/countries/destroy", {
             id: props.match.params.id
         })
     }, [props]);
-    return <Redirect to="/blogs" />
+    return <Redirect to="/" />
 }
 
 export default Destroy;

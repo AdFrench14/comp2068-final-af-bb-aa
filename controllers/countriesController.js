@@ -8,8 +8,6 @@ exports.index = (req, res) => {
 
 
 exports.show = (req, res) => {
-  console.log("GOT TO SHOW METHOD");
-  console.log(req.params.id);
   Country.findOne({
     _id: req.params.id
   })
