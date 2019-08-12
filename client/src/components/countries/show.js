@@ -3,7 +3,8 @@ import Axios from "axios";
 
 function Show(props) {
     const [country, setCountry] = useState({});
-
+    console.log("GOT TO REACT SHOW FUNCTION");
+    console.log(props.match.params.id);
     useEffect(() => {
         Axios.get(`/api/countries/${props.match.params.id}`)
             .then(result => setCountry(result.data))

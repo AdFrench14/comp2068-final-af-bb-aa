@@ -7,20 +7,19 @@ function Edit(props) {
     const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
-        Axios.get(`/api/blogs/${props.match.params.id}`)
+        Axios.get(`/api/countries/${props.match.params.id}`)
             .then(result => setInputs(result.data)) //give it the whole result.data object
             .catch(err => console.error(err));
     }, [props]);
+
     function handleSubmit(event){
         event.preventDefault();
-        Axios.post("/api/blogs/update", {
-            id: props.match.params.id,
-            blog: {
-                title: inputs.title,
-                content: inputs.content,
-                status: inputs.status
-            }
-        })
+        Axios.post("/api/countries/update", {
+                id : props.match.params.id,
+                name: inputs.name,
+                population: inputs.population,
+                export: inputs.export
+            })
             .then(() => setRedirect(true))
             .catch(err => console.error(err));
     }
@@ -34,40 +33,70 @@ function Edit(props) {
         });
     }
 
-    if(redirect) return <Redirect to="/blogs"/>
+    if(redirect) return <Redirect to="/"/>
 
+    if(inputs.export != null) {
     return (
         <div className="container">
       <header>
-        <h1>Edit Blog Post</h1>
+        <h1>Edit Country</h1>
       </header>
+
+      
       <div>
-        <form action="/blogs" method="POST" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Title</label>
-            <input className="form-control" name="title" required="required" onChange={handleInputChange} defaultValue={inputs.title} />
+            <label>Name</label>
+            <input
+              className="form-control"
+              name="name"
+              required
+              onChange={handleInputChange}
+              defaultValue={inputs.name}
+            />
           </div>
 
           <div className="form-group">
-            <label>Content</label>
-            <textarea className="form-control" name="content" onChange={handleInputChange} value={inputs.content} />
+            <label>Population</label>
+            <input
+              className="form-control"
+              name="population"
+              required
+              onChange={handleInputChange}
+              defaultValue={inputs.population}
+            />
           </div>
 
           <div className="form-group">
-            <label>Status</label>
-            <select className="form-control" name="status" required="required" onChange={handleInputChange} defaultValue={inputs.status}>
-              <option value="DRAFT">draft</option>
-              <option value="PUBLISHED">published</option>
+            <label>Export</label>
+            <select
+              className="form-control"
+              name="export"
+              required
+              onChange={handleInputChange}
+              defaultValue={inputs.export.toUpperCase()}
+            >
+              <option value="AGRICULTURE">Agriculture</option>
+              <option value="WATER">Water</option>
+              <option value="MINERALS">Minerals</option>
+              <option value="RARE MATERIALS">Rare Materials</option>
+              <option value="LUMBER">Lumber</option>
             </select>
           </div>
 
           <div className="form-group">
-            <button className="btn btn-dark" type="submit">Submit</button>
-          </div>
+            <button className="btn btn-dark" type="submit">
+              Submit
+            </button>
+            </div>
         </form>
       </div>
     </div>
     );
+    }
+    else {
+      return null;
+    }
 }
 
 export default Edit;

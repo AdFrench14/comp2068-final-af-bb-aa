@@ -24,57 +24,58 @@ function New() {
     event.preventDefault();
 
     //Access the enpoint in the node server
-    Axios.post("/api/blogs", {
-      blog: {
-        title: inputs.title,
-        content: inputs.content,
-        status: inputs.status
-      }
+    Axios.post("/api/countries", {
+        name: inputs.name,
+        population: inputs.population,
+        export: inputs.export
     })
       .then(resp => setRedirect(true))
       .catch(err => console.log(err));
   }
 
-  if (redirect) return <Redirect to="/blogs" />;
+  if (redirect) return <Redirect to="/" />;
 
   return (
     <div className="container">
       <header>
-        <h1>New Blog Post</h1>
+        <h1>New Country</h1>
       </header>
 
       <div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Title</label>
+            <label>Name</label>
             <input
               className="form-control"
-              name="title"
+              name="name"
               required
               onChange={handleInputChange}
             />
           </div>
 
           <div className="form-group">
-            <label>Content</label>
+            <label>Population</label>
             <input
               className="form-control"
-              name="content"
+              name="population"
               required
               onChange={handleInputChange}
             />
           </div>
 
           <div className="form-group">
-            <label>Status</label>
+            <label>Export</label>
             <select
               className="form-control"
-              name="status"
+              name="export"
               required
               onChange={handleInputChange}
             >
-              <option value="DRAFT">draft</option>
-              <option value="PUBLISHED">published</option>
+              <option value="AGRICULTURE">Agriculture</option>
+              <option value="WATER">Water</option>
+              <option value="MINERALS">Minerals</option>
+              <option value="RARE MINERALS">Rare Minerals</option>
+              <option value="LUMBER">Lumber</option>
             </select>
           </div>
 

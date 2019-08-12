@@ -1,40 +1,41 @@
-import React, {useState, useEffect} from "react"
-import Axios from "axios"
+import React, {useState, useEffect} from "react";
+import {Link} from "react-router-dom";
+import Axios from "axios";
 
 function BlogIndex() {
 //going to show every blog post in a table
-    const [blogs, setBlogs] = useState([]);
+    const [country, setCountry] = useState([]);
     useEffect(()=> {
-        Axios.get("/api/blogs")
-            .then(result => setBlogs(result.data)) //our blods are under the property .data
+        Axios.get("/api/countries")
+            .then(result => setCountry(result.data)) //our blods are under the property .data
             .catch(err => console.error(err));
     }, []);
 
     return (
         <div className="container">
             <header>
-                <h1>All Blogs</h1>
+                <h1>All Countries</h1>
             </header>
 
             <div>
                 <table className="table table-striped">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th>Author</th>
-                            <th>Actions</th>
+                            <th>Country Name</th>
+                            <th>Population</th>
+                            <th>Export</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {blogs.map(blog => (
-                            <tr key={blog._id}>
-                                <td>{blog.title}</td>
-                                <td>{blog.status}</td>
-                                <td>{blog.author && blog.author.firstName} {blog.author && blog.author.lastName}</td>
+                        {country.map(country => (
+                            <tr key={country._id}>
+                                <td><Link to={`/${country._id}`}>{country.name}</Link></td>
+                                <td>{country.population}</td>
+                                <td>{country.export}</td>
                                 <td>
-                                    <Link to={`/blogs/${blog._id}/edit`}>edit</Link>|
-                                    <Link to={`/blogs/${blog._id}/destroy`}>delete</Link>
+                                    <Link to={`/${country._id}/edit`}>edit</Link>|
+                                    <Link to={`/${country._id}/destroy`}>delete</Link>
+                                    {/*TODO: May have to change to /:id/edit*/}
                                 </td>
                             </tr>
                         ))}
